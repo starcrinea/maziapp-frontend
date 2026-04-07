@@ -2,7 +2,8 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "cli": {
-    "packageManager": "npm"
+    "packageManager": "npm",
+    "analytics": "7c12477a-2112-4f74-899d-1a59e70985b4"
   },
   "newProjectRoot": "projects",
   "projects": {
@@ -22,11 +23,33 @@
               {
                 "glob": "**/*",
                 "input": "public"
+              },
+              "src/assets",
+              {
+                "glob": "**/css_variables.css",
+                "input": "./node_modules/@sap-theming/theming-base-content/content/Base/baseLib/",
+                "output": "./assets/theming-base/"
+              },
+              {
+                "glob": "**/*",
+                "input": "./node_modules/@sap-theming/theming-base-content/content/Base/baseLib/baseTheme/fonts/",
+                "output": "./assets/theming-base/baseTheme/fonts/"
+              },
+              {
+                "glob": "**/*",
+                "input": "./node_modules/@sap-theming/theming-base-content/content/Base/baseLib/sap_horizon/fonts/",
+                "output": "./assets/theming-base/sap_horizon/fonts/"
+              },
+              {
+                "glob": "**/*",
+                "input": "./node_modules/fundamental-styles/dist/theming/",
+                "output": "./assets/fundamental-styles-theming/"
               }
             ],
             "styles": [
-              "src/styles.css"
-            ]
+  "node_modules/fundamental-styles/dist/fundamental-styles.css",
+  "src/styles.scss"
+]
           },
           "configurations": {
             "production": {

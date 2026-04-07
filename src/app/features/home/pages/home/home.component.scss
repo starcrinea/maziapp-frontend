@@ -1,0 +1,10 @@
+.tiles-container {
+  display: flex;
+  gap: 16px;          
+  flex-wrap: wrap;    
+}
+
+.tile-item {
+  width: 200px;      
+  cursor: pointer;
+}

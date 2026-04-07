@@ -1,0 +1,93 @@
+<fd-shellbar>
+  <!-- LOGO -->
+  <fd-shellbar-logo>
+    <img src="assets/images/logo.png" alt="Logo" class="logo" />
+  </fd-shellbar-logo>
+
+  <!-- ACCIONES -->
+  <fd-shellbar-actions>
+    <!-- 🔲 MODULOS -->
+    <fd-popover placement="bottom-end">
+      <fd-popover-control>
+        <button fd-shellbar-action fdType="transparent">
+          <fd-icon glyph="grid"></fd-icon>
+        </button>
+      </fd-popover-control>
+
+      <fd-popover-body>
+        <!-- SIN MODULOS -->
+        <div *ngIf="filteredModules.length === 0" style="padding: 16px">
+          No tienes acceso a módulos
+        </div>
+
+        <!-- MODULOS -->
+        <div class="product-grid" *ngIf="filteredModules.length > 0">
+          <div class="product-card" *ngFor="let m of filteredModules" (click)="go(m.route)">
+            <fd-icon [glyph]="m.icon" class="product-icon"></fd-icon>
+
+            <div class="product-title">
+              {{ m.title }}
+            </div>
+
+            <div class="product-subtitle">
+              {{ m.subtitle }}
+            </div>
+          </div>
+        </div>
+      </fd-popover-body>
+    </fd-popover>
+
+    <!-- 👤 USUARIO -->
+    <fd-popover placement="bottom-end">
+      <fd-popover-control>
+        <button fd-shellbar-action fdType="transparent">
+          <!-- 🖼️ FOTO -->
+          <fd-avatar size="xs" *ngIf="userPhoto">
+            <img [src]="userPhoto" style="width: 100%; height: 100%; border-radius: 50%" />
+          </fd-avatar>
+
+          <!-- 🔤 FALLBACK -->
+          <fd-avatar size="xs" *ngIf="!userPhoto">
+            {{ userName ? userName[0] : '?' }}
+          </fd-avatar>
+        </button>
+      </fd-popover-control>
+
+      <fd-popover-body>
+        <div class="user-menu">
+          <!-- HEADER USUARIO -->
+          <div class="user-header">
+            <!-- 🖼️ FOTO GRANDE -->
+            <fd-avatar size="s" *ngIf="userPhoto">
+              <img [src]="userPhoto" alt="user" />
+            </fd-avatar>
+
+            <!-- 🔤 FALLBACK -->
+            <fd-avatar size="s" *ngIf="!userPhoto">
+              {{ userName ? userName[0] : '?' }}
+            </fd-avatar>
+
+            <div class="user-info">
+              <div class="user-name">
+                {{ userName }}
+              </div>
+
+              <div class="user-email" *ngIf="userEmail">
+                {{ userEmail }}
+              </div>
+
+              <div class="user-role" *ngIf="userRole !== 'Sin rol'">
+                {{ userRole }}
+              </div>
+            </div>
+          </div>
+
+          <hr />
+
+          <!-- LOGOUT -->
+          <div class="user-item" (click)="logout()">Cerrar sesión</div>
+        </div>
+      </fd-popover-body>
+    </fd-popover>
+  </fd-shellbar-actions>
+</fd-shellbar>

@@ -1,0 +1,31 @@
+<fd-dynamic-page>
+
+  <fd-dynamic-page-header
+    title="Maziapp"
+    subtitle="Reportes">
+  </fd-dynamic-page-header>
+
+  <fd-dynamic-page-content>
+
+    <div class="tiles-container">
+
+      <fd-tile
+        *ngFor="let m of filteredModules"
+        class="tile-item"
+        (click)="go(m.route)">
+
+        <div fd-tile-header class="tile-header">
+          {{ m.title }}
+        </div>
+
+        <div fd-tile-content class="tile-content">
+          <fd-icon [glyph]="m.icon" class="tile-icon"></fd-icon>
+        </div>
+
+      </fd-tile>
+
+    </div>
+
+  </fd-dynamic-page-content>
+
+</fd-dynamic-page>
