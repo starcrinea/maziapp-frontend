@@ -5,10 +5,9 @@ import { jwtDecode } from 'jwt-decode';
 import { environment } from '../../../environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
-
   constructor(private msal: MsalService) {}
 
   login() {
@@ -52,7 +51,7 @@ export class AuthService {
 
       const response = await this.msal.instance.acquireTokenSilent({
         scopes: [loginRequest.scopes[0]],
-        account
+        account,
       });
 
       const decoded: any = jwtDecode(response.accessToken);
@@ -61,13 +60,11 @@ export class AuthService {
       console.log('🔍 ROLES FROM TOKEN:', decoded.roles);
 
       return decoded.roles || [];
-
     } catch (error) {
       console.error('❌ Error obteniendo roles:', error);
       return [];
     }
   }
-
 
   async getUserPhoto(): Promise<string | null> {
   try {
@@ -76,15 +73,23 @@ export class AuthService {
     if (!account) return null;
 
     const response = await this.msal.instance.acquireTokenSilent({
-  scopes: [environment.azure.scopes.graph],
-  account
-});
+      scopes: [environment.azure.scopes.graph],
+      account
+    });
+
+    // 🔍 DEBUG TOKEN
+    console.log('🧪 TOKEN GRAPH:', response);
+    console.log('🧪 ACCESS TOKEN:', response.accessToken);
 
     const res = await fetch('https://graph.microsoft.com/v1.0/me/photo/$value', {
       headers: {
         Authorization: `Bearer ${response.accessToken}`
       }
     });
+
+    // 🔍 DEBUG RESPONSE
+    console.log('🧪 PHOTO STATUS:', res.status);
+    console.log('🧪 PHOTO OK?:', res.ok);
 
     if (!res.ok) return null;
 

@@ -9,31 +9,27 @@
     <!-- 🔲 MODULOS -->
     <fd-popover placement="bottom-end">
       <fd-popover-control>
-        <button fd-shellbar-action fdType="transparent">
+        <button fd-shellbar-action fdType="transparent" class="action-btn">
           <fd-icon glyph="grid"></fd-icon>
         </button>
       </fd-popover-control>
 
       <fd-popover-body>
         <!-- SIN MODULOS -->
-        <div *ngIf="filteredModules.length === 0" style="padding: 16px">
-          No tienes acceso a módulos
-        </div>
+        <div *ngIf="!isLoading && filteredModules.length === 0" class="empty-modules">
+  <fd-icon glyph="dimension"></fd-icon>
+  <div>No tienes acceso a módulos</div>
+  <small>Contacta con tu administrador</small>
+</div>
 
         <!-- MODULOS -->
-        <div class="product-grid" *ngIf="filteredModules.length > 0">
-          <div class="product-card" *ngFor="let m of filteredModules" (click)="go(m.route)">
-            <fd-icon [glyph]="m.icon" class="product-icon"></fd-icon>
-
-            <div class="product-title">
-              {{ m.title }}
-            </div>
-
-            <div class="product-subtitle">
-              {{ m.subtitle }}
-            </div>
-          </div>
-        </div>
+        <div class="product-grid" *ngIf="!isLoading && filteredModules.length > 0">
+  <div class="product-card" *ngFor="let m of filteredModules" (click)="go(m.route)">
+    <fd-icon [glyph]="m.icon" class="product-icon"></fd-icon>
+    <div class="product-title">{{ m.title }}</div>
+    <div class="product-subtitle">{{ m.subtitle }}</div>
+  </div>
+</div>
       </fd-popover-body>
     </fd-popover>
 
@@ -42,13 +38,7 @@
       <fd-popover-control>
         <button fd-shellbar-action fdType="transparent">
           <!-- 🖼️ FOTO -->
-          <fd-avatar size="xs" *ngIf="userPhoto">
-            <img [src]="userPhoto" style="width: 100%; height: 100%; border-radius: 50%" />
-          </fd-avatar>
-
-          <!-- 🔤 FALLBACK -->
-          <fd-avatar size="xs" *ngIf="!userPhoto">
-            {{ userName ? userName[0] : '?' }}
+          <fd-avatar size="xs" class="fd-avatar fd-avatar--circle" [attr.aria-label]="userName">
           </fd-avatar>
         </button>
       </fd-popover-control>
@@ -58,14 +48,14 @@
           <!-- HEADER USUARIO -->
           <div class="user-header">
             <!-- 🖼️ FOTO GRANDE -->
-            <fd-avatar size="s" *ngIf="userPhoto">
-              <img [src]="userPhoto" alt="user" />
+            <fd-avatar
+              *ngIf="userPhoto"
+              [image]="userPhoto"
+              size="s"
+              class="fd-avatar fd-avatar--circle"
+            >
             </fd-avatar>
 
-            <!-- 🔤 FALLBACK -->
-            <fd-avatar size="s" *ngIf="!userPhoto">
-              {{ userName ? userName[0] : '?' }}
-            </fd-avatar>
 
             <div class="user-info">
               <div class="user-name">

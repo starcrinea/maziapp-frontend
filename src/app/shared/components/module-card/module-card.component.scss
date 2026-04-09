@@ -1,0 +1,48 @@
+.module-card {
+  cursor: pointer;
+  height: 100%;
+}
+
+/* CARD BASE */
+.module-card fd-card {
+  height: 140px;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  background: #f9fafb;
+  transition: all 0.25s ease;
+}
+
+/* CONTENIDO CENTRADO */
+.module-card fd-card-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  gap: 10px;
+}
+
+/* TÍTULO */
+h3 {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0;
+}
+
+/* ICONO */
+.icon {
+  font-size: 28px;
+  color: #6b7280;
+}
+.icon fd-icon {
+  font-size: 30px; 
+  padding: 10px
+}
+
+/* HOVER (CLAVE) */
+.module-card:hover fd-card {
+  background: white;
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}

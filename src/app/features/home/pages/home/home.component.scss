@@ -1,10 +1,11 @@
-.tiles-container {
-  display: flex;
-  gap: 16px;          
-  flex-wrap: wrap;    
-}
-
 .tile-item {
   width: 200px;      
   cursor: pointer;
+}
+
+.tiles-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 16px;
+  padding: 20px;
 }

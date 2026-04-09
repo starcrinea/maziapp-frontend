@@ -9,22 +9,15 @@
 
     <div class="tiles-container">
 
-      <fd-tile
-        *ngFor="let m of filteredModules"
-        class="tile-item"
-        (click)="go(m.route)">
+  <app-module-card
+    *ngFor="let m of filteredModules"
+    [title]="m.title"
+    [description]="m.subtitle"
+    [icon]="m.icon"
+    [route]="m.route">
+  </app-module-card>
 
-        <div fd-tile-header class="tile-header">
-          {{ m.title }}
-        </div>
-
-        <div fd-tile-content class="tile-content">
-          <fd-icon [glyph]="m.icon" class="tile-icon"></fd-icon>
-        </div>
-
-      </fd-tile>
-
-    </div>
+</div>
 
   </fd-dynamic-page-content>
 

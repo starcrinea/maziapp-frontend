@@ -14,5 +14,8 @@ export const msalInstance = new PublicClientApplication({
 
 // 🔐 LOGIN
 export const loginRequest = {
-  scopes: [environment.azure.scopes.api]
+  scopes: [
+    environment.azure.scopes.api,
+    'User.Read'
+  ]
 };

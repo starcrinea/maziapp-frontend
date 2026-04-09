@@ -1,12 +1,13 @@
 <div class="module-card" (click)="navigate()">
   <fd-card>
     <fd-card-content>
+
+      <h3>{{ title }}</h3>
+
       <div class="icon">
         <fd-icon [glyph]="icon"></fd-icon>
       </div>
 
-      <h3>{{ title }}</h3>
-      <p>{{ description }}</p>
     </fd-card-content>
   </fd-card>
 </div>

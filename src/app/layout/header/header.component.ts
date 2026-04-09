@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
@@ -12,7 +12,10 @@ import { PopoverModule } from '@fundamental-ngx/core/popover';
 // Auth
 import { AuthService } from '../../core/auth/auth.service';
 
-// 🔥 MSAL (FIX IMPORTANTE)
+// 🔥 NUEVO: Module Service
+import { ModuleService } from '../../core/services/module.service';
+
+// MSAL
 import { MsalBroadcastService } from '@azure/msal-angular';
 import { InteractionStatus } from '@azure/msal-browser';
 import { filter } from 'rxjs/operators';
@@ -20,132 +23,123 @@ import { filter } from 'rxjs/operators';
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, ShellbarModule, AvatarModule, ButtonModule, IconModule, PopoverModule],
+  imports: [
+    CommonModule,
+    ShellbarModule,
+    AvatarModule,
+    ButtonModule,
+    IconModule,
+    PopoverModule
+  ],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
+
+  // 👤 USER
   userName = 'Usuario';
   userEmail = '';
   userRole = '';
   userPhoto: string | null = null;
 
-  modules = [
-    {
-      title: 'Contactos',
-      subtitle: 'Módulo de contactos',
-      icon: 'contacts',
-      route: '/contactos',
-      roles: ['ejecutivo_inversion', 'supervisor_inversion'],
-    },
-    {
-      title: 'Prospectos',
-      subtitle: 'Módulo de inversiones',
-      icon: 'business-objects-experience',
-      route: '/prospectos',
-      roles: ['ejecutivo_inversion', 'supervisor_inversion'],
-    },
-    {
-      title: 'Reportes',
-      subtitle: 'Módulo de inversiones',
-      icon: 'line-chart',
-      route: '/reportes',
-      roles: ['supervisor_inversion'],
-    },
-  ];
+  // ⏳ LOADING
+  isLoading = true;
 
+  // 📦 MODULES (desde service)
+  modules: any[] = [];
   filteredModules: any[] = [];
 
   constructor(
     private router: Router,
     private auth: AuthService,
-    private msalBroadcast: MsalBroadcastService, // 🔥 CLAVE
+    private moduleService: ModuleService, 
+    private msalBroadcast: MsalBroadcastService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
-    // 🔥 ESPERAR A MSAL (SOLUCIÓN DEFINITIVA)
+    // 🔥 CARGAR MÓDULOS DESDE SERVICE
+    this.modules = this.moduleService.getMainModules();
+
+    // 🔥 ESPERAR A MSAL
     this.msalBroadcast.inProgress$
       .pipe(filter((status) => status === InteractionStatus.None))
       .subscribe(() => {
-        console.log('🔥 MSAL LISTO → HEADER');
-
         this.loadUser();
       });
   }
 
   async loadUser() {
-    setTimeout(async () => {
-  this.userPhoto = await this.auth.getUserPhoto();
-  console.log('🖼️ FOTO USUARIO:', this.userPhoto);
-});
+    this.isLoading = true;
 
-    if (!this.auth.isLoggedIn()) return;
+    // 🖼️ FOTO
+    this.userPhoto = await this.auth.getUserPhoto();
+
+    if (!this.auth.isLoggedIn()) {
+      this.isLoading = false;
+      return;
+    }
 
     let user = this.auth.getUser();
 
-    console.log('🔍 USER INICIAL:', user);
-
-    // 🔥 FIX EXTRA (por si acaso)
     if (!user) {
       const accounts = (this.auth as any).msal.instance.getAllAccounts();
-
-      console.log('🔍 ACCOUNTS DISPONIBLES:', accounts);
-
       if (accounts.length > 0) {
         (this.auth as any).msal.instance.setActiveAccount(accounts[0]);
         user = accounts[0];
       }
     }
 
-    console.log('🔍 USER FINAL:', user);
-
     const claims: any = user?.idTokenClaims || {};
 
-    console.log('🔍 CLAIMS COMPLETOS:', claims);
+    const email =
+      claims.preferred_username ||
+      claims.email ||
+      user?.username ||
+      '';
 
-    // 📧 EMAIL
-    const email = claims.preferred_username || claims.email || user?.username || '';
-
-    // 👤 NOMBRE (INTELIGENTE)
     const name =
       claims.name ||
       `${claims.given_name || ''} ${claims.family_name || ''}`.trim() ||
       email.split('@')[0] ||
       'Usuario';
 
-    console.log('👤 NOMBRE USUARIO:', name);
-    console.log('📧 EMAIL USUARIO:', email);
-
     this.userEmail = email;
-
-    // 🔥 FORMATO BONITO
     this.userName = name.replace('.', ' ');
 
-    // 🔐 ROLES
+    // 🎭 ROLES
     const roles = await this.auth.getRoles();
 
-    console.log('🔍 ROLES:', roles);
-
-    // 🧾 FORMATO ROL
     this.userRole =
       roles.length > 0
-        ? roles[0].replace('_', ' ').replace(/\b\w/g, (l) => l.toUpperCase())
+        ? roles[0]
+            .replace('_', ' ')
+            .replace(/\b\w/g, (l) => l.toUpperCase())
         : 'Sin rol';
 
     const userRoles = roles.map((r: string) => r.toLowerCase());
 
-    // 🎯 FILTRO DE MÓDULOS
+    // 🔥 FILTRAR MÓDULOS POR ROL
     this.filteredModules = this.modules.filter(
-      (m) => !m.roles || m.roles.some((role) => userRoles.includes(role.toLowerCase())),
+      (m) =>
+        !m.roles ||
+        m.roles.some((role: string) =>
+          userRoles.includes(role.toLowerCase())
+        )
     );
 
-    console.log('🔍 MODULES FILTRADOS:', this.filteredModules);
+    this.isLoading = false;
+
+    // 🔥 FIX Angular change detection
+    this.cdr.detectChanges();
   }
 
+  // 🚀 NAVEGACIÓN
   go(route: string) {
     this.router.navigate([route]);
   }
 
+  // 🔒 LOGOUT
   logout() {
     this.auth.logout();
   }

@@ -8,5 +8,5 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./features/home/pages/home/home.component')
         .then(m => m.HomeComponent)
-  }
+  },
 ];
