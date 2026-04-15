@@ -60,7 +60,7 @@
 
   <div class="product-card" *ngFor="let m of filteredModules" (click)="go(m.route)">
     
-    <i class="product-icon" [ngClass]="'sap-icon--' + m.icon"></i>
+    <fd-icon [glyph]="m.icon" class="product-icon"></fd-icon>
 
     <div class="product-text">
       <div class="product-title">{{ m.title }}</div>

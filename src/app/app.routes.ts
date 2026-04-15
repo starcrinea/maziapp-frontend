@@ -9,4 +9,10 @@ export const routes: Routes = [
       import('./features/home/pages/home/home.component')
         .then(m => m.HomeComponent)
   },
+  {
+  path: 'reportes/:id',
+  loadComponent: () =>
+    import('./features/reportes/pages/powerbi-view/powerbi-view.component')
+      .then(m => m.PowerbiViewComponent)
+},
 ];

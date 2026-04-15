@@ -21,12 +21,12 @@ import { MsalBroadcastService } from '@azure/msal-angular';
 import { InteractionStatus } from '@azure/msal-browser';
 import { filter } from 'rxjs/operators';
 
-
+import { ProductSwitchModule } from '@fundamental-ngx/core/product-switch';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, ShellbarModule, AvatarModule, ButtonModule, IconModule, PopoverModule],
+  imports: [CommonModule, ShellbarModule, AvatarModule, ButtonModule, IconModule, PopoverModule,ProductSwitchModule],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })

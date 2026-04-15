@@ -18,7 +18,7 @@
   padding: 16px 12px;
   border-radius: 12px;
   transition: all var(--transition-normal);
-  background: var(--gray-50);
+ // background: var(--gray-50);
   border: 1px solid transparent;
 
   &:hover {
@@ -26,11 +26,6 @@
     border-color: var(--primary-light);
     transform: translateY(-2px);
     box-shadow: var(--shadow-md);
-
-    .product-icon {
-      transform: scale(1.05);
-      color: var(--primary-dark);
-    }
   }
 
   &:active {
@@ -38,12 +33,16 @@
   }
 }
 
-/* ICON */
-.product-icon {
-  font-size: 28px;
-  margin-bottom: 8px;
-  color: var(--primary);
+.fd-product-switch__icon[class*="sap-icon"] {
+    font-size: 1.5rem;
+    margin-bottom: .5rem;
+    min-height: 3rem;
+    min-width: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
+
 
 /* TEXT */
 .product-title {
@@ -95,77 +94,3 @@
   color: #ff7a00;
 }
 
-/* ============================================
-   ACTION BUTTONS
-============================================ */
-.action-btn {
-  border-radius: 12px;
-  transition: all var(--transition-fast);
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 10px;
-
-  &:hover {
-    background-color: var(--gray-100);
-    transform: scale(1.05);
-  }
-
-  &:active {
-    transform: scale(0.98);
-  }
-
-  fd-icon {
-    font-size: 20px;
-    color: var(--gray-600);
-    transition: color var(--transition-fast);
-  }
-
-  &:hover fd-icon {
-    color: var(--primary);
-  }
-}
-
-/* ============================================
-   EMPTY STATE
-============================================ */
-.empty-modules {
-  padding: 32px 24px;
-  text-align: center;
-  color: var(--gray-500);
-  font-size: 14px;
-  background: var(--gray-50);
-  border-radius: 12px;
-  min-width: 200px;
-
-  fd-icon {
-    font-size: 32px;
-    margin-bottom: 12px;
-    color: var(--gray-400);
-  }
-}
-
-/* ============================================
-   POPOVER
-============================================ */
-::ng-deep .fd-popover__body {
-  border-radius: 16px !important;
-  box-shadow: var(--shadow-xl) !important;
-  border: 1px solid var(--gray-200) !important;
-  overflow: hidden !important;
-  animation: fadeInUp 0.2s ease-out !important;
-}
-
-/* ANIMATION */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
