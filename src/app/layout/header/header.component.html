@@ -9,24 +9,19 @@
     <!-- ➕ NUEVO CONTACTO -->
 
     <fd-popover placement="bottom-end">
-<fd-popover-control>
-<button
-      *ngIf="showAddButton"
-      fd-shellbar-action
-      fdType="transparent"
-      class="ms-square-btn"
-      title="Registrar contacto"
-      (click)="go('/contactos/nuevo')"
-    >
-      <fd-icon glyph="add"></fd-icon>
-    </button>
-
-</fd-popover-control>
-
-      
-
+      <fd-popover-control>
+        <button
+          *ngIf="showAddButton"
+          fd-shellbar-action
+          fdType="transparent"
+          class="ms-square-btn"
+          title="Registrar contacto"
+          (click)="go('/contactos/nuevo')"
+        >
+          <fd-icon glyph="add"></fd-icon>
+        </button>
+      </fd-popover-control>
     </fd-popover>
-    
 
     <!-- 👤 USER (AHORA BIEN POSICIONADO) -->
     <fd-popover placement="bottom-end">

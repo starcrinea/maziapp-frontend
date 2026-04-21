@@ -3,11 +3,12 @@ import { MsalGuard } from '@azure/msal-angular';
 
 export const routes: Routes = [
   {
-    path: '',
-    canActivate: [MsalGuard],
-    loadComponent: () =>
-      import('./features/home/pages/home/home.component').then((m) => m.HomeComponent),
-  },
+  path: '',
+  canActivate: [MsalGuard],
+  loadComponent: () =>
+    import('./features/home/pages/home/home.component')
+      .then(m => m.HomeComponent)
+},
   {
     path: 'reportes/:id',
     loadComponent: () =>
@@ -16,8 +17,11 @@ export const routes: Routes = [
       ),
   },
   {
-    path: 'contactos',
-    loadComponent: () =>
-      import('./features/contactos/pages/contactos.component').then((m) => m.ContactosComponent),
-  },
+  path: 'contactos',
+  canActivate: [MsalGuard],
+  loadComponent: () =>
+    import('./features/contactos/pages/contactos.component')
+      .then(m => m.ContactosComponent)
+},
+
 ];

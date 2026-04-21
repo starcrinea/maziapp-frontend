@@ -10,7 +10,17 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
   const msal = inject(MsalService);
   const auth = inject(AuthService);
-  const account = msal.instance.getActiveAccount();
+
+  let account = msal.instance.getActiveAccount();
+
+  if (!account) {
+    const accounts = msal.instance.getAllAccounts();
+
+    if (accounts.length > 0) {
+      account = accounts[0];
+      msal.instance.setActiveAccount(account);
+    }
+  }
 
   if (!account) {
     return next(req);
