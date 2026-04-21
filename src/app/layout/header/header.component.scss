@@ -4,23 +4,9 @@
   object-fit: contain;
 }
 
-/* 🔲 BOTÓN CUADRADO (USER + GRID) */
-.ms-square-btn {
-  width: 36px;
-  height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid var(--gray-200);
-  border-radius: 6px;
-  background: #fff;
-  transition: all var(--transition-fast);
-}
+.fd-popover-custom{
+  margin: 3px;
 
-/* 🔥 HOVER */
-.ms-square-btn:hover {
-  background: var(--gray-100);
-  border-color: var(--gray-400);
 }
 
 /* 🔥 CLICK */
@@ -57,21 +43,6 @@
 
 
 
-/* 📝 TITULO */
-.product-title {
-  font-size: 14px;
-  font-weight: 600;
-  text-align: center;
-  color: var(--gray-600);
-}
-
-/* 🧾 SUBTÍTULO */
-.product-subtitle {
-  font-size: 12px;
-  color: var(--gray-500);
-  text-align: center;
-}
-
 /* 👤 USER MENU */
 .user-name {
   color: var(--gray-600);
@@ -100,14 +71,8 @@ fd-popover-body {
 }
 
 
-.product-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 3rem;  
-  min-height: 3rem;  
-  font-size: 1.5rem;
-  color: var(--primary);
+.fd-product-switch__icon{
+ color: var(--primary);
 }
 
 
@@ -138,4 +103,43 @@ fd-popover-body {
   .product-subtitle {
     text-align: left;
   }
+  .fd-product-switch__text{
+    text-align: left;
+  }
+}
+
+/* CONTENEDOR CORRECTO DE ACCIONES HEADER */
+.shell-action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* BOTONES HEADER */
+.ms-square-btn {
+  width: 36px;
+  height: 36px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+  margin: 0;
+
+  border: 1px solid var(--gray-200);
+  border-radius: 6px;
+  background: #fff;
+
+  transition: all var(--transition-fast);
+}
+
+.ms-square-btn:hover {
+  background: var(--gray-100);
+  border-color: var(--gray-400);
+}
+
+.ms-square-btn fd-icon {
+  font-size: 16px;
+  color: var(--primary);
 }

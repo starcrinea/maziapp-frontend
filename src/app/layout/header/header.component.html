@@ -6,6 +6,28 @@
 
   <!-- ACCIONES -->
   <fd-shellbar-actions>
+    <!-- ➕ NUEVO CONTACTO -->
+
+    <fd-popover placement="bottom-end">
+<fd-popover-control>
+<button
+      *ngIf="showAddButton"
+      fd-shellbar-action
+      fdType="transparent"
+      class="ms-square-btn"
+      title="Registrar contacto"
+      (click)="go('/contactos/nuevo')"
+    >
+      <fd-icon glyph="add"></fd-icon>
+    </button>
+
+</fd-popover-control>
+
+      
+
+    </fd-popover>
+    
+
     <!-- 👤 USER (AHORA BIEN POSICIONADO) -->
     <fd-popover placement="bottom-end">
       <fd-popover-control>
@@ -57,19 +79,15 @@
         </div>
 
         <div class="product-grid" *ngIf="!isLoading && filteredModules.length > 0">
+          <div class="product-card" *ngFor="let m of filteredModules" (click)="go(m.route)">
+            <i class="fd-product-switch__icon" [ngClass]="'sap-icon--' + m.icon"></i>
 
-  <div class="product-card" *ngFor="let m of filteredModules" (click)="go(m.route)">
-    
-    <i class="product-icon" [ngClass]="'sap-icon--' + m.icon"></i>
-
-    <div class="product-text">
-      <div class="product-title">{{ m.title }}</div>
-      <div class="product-subtitle">{{ m.subtitle }}</div>
-    </div>
-
-  </div>
-
-</div>
+            <div class="fd-product-switch__text">
+              <div class="fd-product-switch__title">{{ m.title }}</div>
+              <div class="fd-product-switch__subtitle">{{ m.subtitle }}</div>
+            </div>
+          </div>
+        </div>
       </fd-popover-body>
     </fd-popover>
   </fd-shellbar-actions>

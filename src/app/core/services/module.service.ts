@@ -50,7 +50,7 @@ export class ModuleService {
     },
     {
       title: 'Control de operaciones',
-      icon: 'loan',
+      icon: 'settings',
       route: '/reportes/control_operaciones',
       roles: ['supervisor_inversion'],
     }

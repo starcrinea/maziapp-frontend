@@ -6,13 +6,18 @@ export const routes: Routes = [
     path: '',
     canActivate: [MsalGuard],
     loadComponent: () =>
-      import('./features/home/pages/home/home.component')
-        .then(m => m.HomeComponent)
+      import('./features/home/pages/home/home.component').then((m) => m.HomeComponent),
   },
   {
-  path: 'reportes/:id',
-  loadComponent: () =>
-    import('./features/reportes/pages/powerbi-view/powerbi-view.component')
-      .then(m => m.PowerbiViewComponent)
-},
+    path: 'reportes/:id',
+    loadComponent: () =>
+      import('./features/reportes/pages/powerbi-view/powerbi-view.component').then(
+        (m) => m.PowerbiViewComponent,
+      ),
+  },
+  {
+    path: 'contactos',
+    loadComponent: () =>
+      import('./features/contactos/pages/contactos.component').then((m) => m.ContactosComponent),
+  },
 ];

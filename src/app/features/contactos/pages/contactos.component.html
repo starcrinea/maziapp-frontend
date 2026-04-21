@@ -1,0 +1,67 @@
+<fd-dynamic-page>
+
+  <fd-dynamic-page-header title="Contactos"></fd-dynamic-page-header>
+
+  <fd-dynamic-page-content>
+
+    <table fd-table>
+
+      <!-- HEADER -->
+      <thead fd-table-header>
+        <tr fd-table-row>
+
+          <th fd-table-cell>
+            DNI
+            <fd-input-group glyph="filter"></fd-input-group>
+          </th>
+
+          <th fd-table-cell>
+            Nombres
+            <fd-input-group glyph="filter"></fd-input-group>
+          </th>
+
+          <th fd-table-cell>
+            Apellidos
+            <fd-input-group glyph="filter"></fd-input-group>
+          </th>
+
+          <th fd-table-cell>Correo</th>
+          <th fd-table-cell>Teléfono</th>
+          <th fd-table-cell>Registrado</th>
+          <th fd-table-cell></th>
+
+        </tr>
+      </thead>
+
+      <!-- BODY -->
+      <tbody fd-table-body>
+        <tr fd-table-row *ngFor="let c of contactos">
+
+          <td fd-table-cell>{{ c.dni }}</td>
+          <td fd-table-cell>{{ c.nombres }}</td>
+          <td fd-table-cell>{{ c.apellidos }}</td>
+          <td fd-table-cell>{{ c.correo }}</td>
+          <td fd-table-cell>{{ c.celular }}</td>
+          <td fd-table-cell>{{ c.registrado }}</td>
+
+          <td fd-table-cell>
+            <i class="sap-icon--slim-arrow-right"></i>
+          </td>
+
+        </tr>
+      </tbody>
+
+      <!-- FOOTER -->
+      <tfoot fd-table-footer>
+        <tr fd-table-row>
+          <td fd-table-cell colspan="100">
+            <fd-pagination></fd-pagination>
+          </td>
+        </tr>
+      </tfoot>
+
+    </table>
+
+  </fd-dynamic-page-content>
+
+</fd-dynamic-page>

@@ -1,7 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { CommonModule } from '@angular/common';
-
 
 // SAP
 import { ShellbarModule } from '@fundamental-ngx/core/shellbar';
@@ -21,8 +20,6 @@ import { MsalBroadcastService } from '@azure/msal-angular';
 import { InteractionStatus } from '@azure/msal-browser';
 import { filter } from 'rxjs/operators';
 
-
-
 @Component({
   selector: 'app-header',
   standalone: true,
@@ -31,6 +28,8 @@ import { filter } from 'rxjs/operators';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
+  showAddButton = false;
+
   // 👤 USER
   userName = 'Usuario';
   userEmail = '';
@@ -63,6 +62,12 @@ export class HeaderComponent implements OnInit {
       .pipe(filter((status) => status === InteractionStatus.None))
       .subscribe(() => {
         this.loadUser();
+      });
+
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe((event: any) => {
+        this.showAddButton = event.url.includes('/contactos');
       });
   }
 
@@ -108,7 +113,7 @@ export class HeaderComponent implements OnInit {
     this.cdr.detectChanges();
 
     console.log('Initials:', this.userInitials);
-console.log('Name:', this.userName);
+    console.log('Name:', this.userName);
 
     // 🎭 ROLES
     const roles = await this.auth.getRoles();

@@ -1,10 +1,6 @@
-.module-card {
-  cursor: pointer;
-  height: 100%;
-}
-
 /* CARD BASE */
 .module-card fd-card {
+ // width: 160px;
   height: 160px;
   border-radius: 5px;
   border: 1px solid #d1d5db;
@@ -27,7 +23,8 @@ h3 {
   font-size: 14px;
   font-weight: 600;
   color: #1f2937;
-  margin: 0;
+  margin: 3px;
+  text-align: center;
 }
 
 /* ICONO */
