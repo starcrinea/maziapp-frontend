@@ -16,7 +16,7 @@
           fdType="transparent"
           class="ms-square-btn"
           title="Registrar contacto"
-          (click)="go('/contactos/nuevo')"
+          (click)="abrirNuevoContacto()"
         >
           <fd-icon glyph="add"></fd-icon>
         </button>
@@ -27,8 +27,18 @@
     <fd-popover placement="bottom-end">
       <fd-popover-control>
         <button fd-shellbar-action fdType="transparent" class="ms-square-btn">
-          <fd-avatar [image]="userPhoto" size="xs" class="fd-avatar--circle">
-            {{ !userPhoto ? userInitials : '' }}
+          <!-- 👤 con imagen -->
+          <fd-avatar
+            *ngIf="photoReady && userPhoto"
+            [image]="userPhoto"
+            size="xs"
+            class="fd-avatar--circle"
+          >
+          </fd-avatar>
+
+          <!-- 👤 sin imagen -->
+          <fd-avatar *ngIf="!photoReady || !userPhoto" size="xs" class="fd-avatar--circle">
+            {{ userInitials }}
           </fd-avatar>
         </button>
       </fd-popover-control>
@@ -36,17 +46,24 @@
       <fd-popover-body>
         <div class="user-menu">
           <div class="user-header">
+            <!-- con imagen -->
             <fd-avatar
+              *ngIf="photoReady && userPhoto"
               [image]="userPhoto"
-              [label]="!userPhoto ? userInitials : null"
               size="s"
               class="fd-avatar--circle"
-            ></fd-avatar>
+            >
+            </fd-avatar>
+
+            <!-- sin imagen -->
+            <fd-avatar *ngIf="!photoReady || !userPhoto" size="s" class="fd-avatar--circle">
+              {{ userInitials }}
+            </fd-avatar>
 
             <div class="user-info">
               <div class="user-name">{{ userName }}</div>
               <div class="user-email" *ngIf="userEmail">{{ userEmail }}</div>
-              <div class="user-role" *ngIf="userRole !== 'Sin rol'">
+              <div class="user-role" *ngIf="userRole && userRole !== 'Sin rol'">
                 {{ userRole }}
               </div>
             </div>

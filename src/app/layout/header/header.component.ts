@@ -1,6 +1,10 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { SessionService } from '../../core/services/session.service';
+
+import { DialogService } from '@fundamental-ngx/core/dialog';
+import { ContactoModalComponent } from '../../features/contactos/components/contacto-modal.component';
 
 // SAP
 import { ShellbarModule } from '@fundamental-ngx/core/shellbar';
@@ -35,6 +39,7 @@ export class HeaderComponent implements OnInit {
   userEmail = '';
   userRole = '';
   userPhoto: string | null = null;
+  photoReady = false;
 
   userInitials = '';
 
@@ -51,18 +56,64 @@ export class HeaderComponent implements OnInit {
     private moduleService: ModuleService,
     private msalBroadcast: MsalBroadcastService,
     private cdr: ChangeDetectorRef,
+    private session: SessionService,
+    private dialogService: DialogService,
   ) {}
 
   ngOnInit() {
-    // 🔥 CARGAR MÓDULOS DESDE SERVICE
-    this.modules = this.moduleService.getMainModules();
-
-    // 🔥 ESPERAR A MSAL
     this.msalBroadcast.inProgress$
       .pipe(filter((status) => status === InteractionStatus.None))
       .subscribe(() => {
-        this.loadUser();
+        this.session.loadSession();
       });
+
+    this.session.user$.subscribe((user) => {
+      if (!user) return;
+
+      const claims: any = user.idTokenClaims || {};
+
+      const email = claims.preferred_username || claims.email || user.username || '';
+
+      const name = claims.name || email.split('@')[0];
+
+      queueMicrotask(() => {
+        this.userName = name;
+        this.userEmail = email;
+        this.userInitials = this.getInitials(name);
+        this.cdr.markForCheck();
+      });
+    });
+
+    this.session.photo$.subscribe((photo) => {
+      if (!photo) return;
+
+      queueMicrotask(() => {
+        this.userPhoto = photo;
+        this.photoReady = true;
+        this.cdr.markForCheck();
+      });
+    });
+
+    this.session.roles$.subscribe((roles) => {
+      queueMicrotask(() => {
+        this.userRole = roles.length > 0 ? roles[0] : 'Sin rol';
+        this.cdr.markForCheck();
+      });
+    });
+
+    this.session.modules$.subscribe((modules) => {
+      queueMicrotask(() => {
+        this.filteredModules = modules;
+        this.cdr.markForCheck();
+      });
+    });
+
+    this.session.loading$.subscribe((state) => {
+      queueMicrotask(() => {
+        this.isLoading = state;
+        this.cdr.markForCheck();
+      });
+    });
 
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
@@ -71,69 +122,10 @@ export class HeaderComponent implements OnInit {
       });
   }
 
-  async loadUser() {
-    this.isLoading = true;
-
-    // 🖼️ FOTO
-    this.userPhoto = await this.auth.getUserPhoto();
-
-    if (!this.auth.isLoggedIn()) {
-      this.isLoading = false;
-      return;
-    }
-
-    let user = this.auth.getUser();
-
-    if (!user) {
-      const accounts = (this.auth as any).msal.instance.getAllAccounts();
-      if (accounts.length > 0) {
-        (this.auth as any).msal.instance.setActiveAccount(accounts[0]);
-        user = accounts[0];
-      }
-    }
-
-    const claims: any = user?.idTokenClaims || {};
-
-    const email = claims.preferred_username || claims.email || user?.username || '';
-
-    let name = '';
-
-    if (claims.given_name || claims.family_name) {
-      name = `${claims.given_name || ''} ${claims.family_name || ''}`.trim();
-    } else if (claims.name) {
-      name = claims.name;
-    } else {
-      name = email.split('@')[0];
-    }
-
-    this.userName = name.replace('.', ' ');
-    this.userEmail = email;
-
-    this.userInitials = this.getInitials(this.userName);
-    this.cdr.detectChanges();
-
-    console.log('Initials:', this.userInitials);
-    console.log('Name:', this.userName);
-
-    // 🎭 ROLES
-    const roles = await this.auth.getRoles();
-
-    this.userRole =
-      roles.length > 0
-        ? roles[0].replace('_', ' ').replace(/\b\w/g, (l) => l.toUpperCase())
-        : 'Sin rol';
-
-    const userRoles = roles.map((r: string) => r.toLowerCase());
-
-    // 🔥 FILTRAR MÓDULOS POR ROL
-    this.filteredModules = this.modules.filter(
-      (m) => !m.roles || m.roles.some((role: string) => userRoles.includes(role.toLowerCase())),
-    );
-
-    this.isLoading = false;
-
-    // 🔥 FIX Angular change detection
-    this.cdr.detectChanges();
+  abrirNuevoContacto() {
+    this.dialogService.open(ContactoModalComponent, {
+      responsivePadding: true,
+    });
   }
 
   // 🚀 NAVEGACIÓN

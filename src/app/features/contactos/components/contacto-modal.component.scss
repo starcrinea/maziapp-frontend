@@ -1,0 +1,18 @@
+:host {
+  display: block;
+  width: 420px;
+}
+
+fd-dialog-body {
+  padding: 1rem;
+}
+
+[fd-form-item] {
+  margin-bottom: 1rem;
+}
+
+fd-dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}

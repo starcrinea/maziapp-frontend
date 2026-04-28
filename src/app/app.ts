@@ -18,13 +18,14 @@ export class App implements OnInit {
     private msalBroadcast: MsalBroadcastService,
   ) {}
 
-  ngOnInit(): void {
-  this.msal.instance.handleRedirectPromise().then(() => {
+  async ngOnInit(): Promise<void> {
+    await this.msal.instance.initialize();
+
+    await this.msal.instance.handleRedirectPromise();
 
     this.msalBroadcast.inProgress$
-      .pipe(filter(status => status === InteractionStatus.None))
+      .pipe(filter((status) => status === InteractionStatus.None))
       .subscribe(() => {
-
         const accounts = this.msal.instance.getAllAccounts();
 
         if (accounts.length > 0) {
@@ -32,9 +33,6 @@ export class App implements OnInit {
         } else {
           this.msal.loginRedirect(loginRequest);
         }
-
       });
-
-  });
-}
+  }
 }
