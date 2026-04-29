@@ -44,7 +44,8 @@
                 "glob": "**/*",
                 "input": "./node_modules/fundamental-styles/dist/theming/",
                 "output": "./assets/fundamental-styles-theming/"
-              }
+              },
+              "staticwebapp.config.json"
             ],
             "styles": [
               "node_modules/fundamental-styles/dist/fundamental-styles.css",
