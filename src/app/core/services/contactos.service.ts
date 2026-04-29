@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ContactosService {
-  private api = 'http://localhost:7071/api/contactos';
+  private api = `${environment.api.baseUrl}/contactos`;
 
   private refresh$ = new Subject<void>();
 
