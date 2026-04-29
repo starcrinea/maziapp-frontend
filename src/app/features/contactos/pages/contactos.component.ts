@@ -19,7 +19,7 @@ import { ContactoModalComponent } from '../components/contacto-modal.component';
 })
 export class ContactosComponent implements OnInit, AfterViewInit {
   contactos: any[] = [];
-  loading = false;
+
   totalItems = 0;
 
   ngAfterViewInit() {
