@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { MsalGuard } from '@azure/msal-angular';
+import { roleGuard } from './core/guards/role.guard';
 
 export const routes: Routes = [
   {
@@ -10,7 +11,8 @@ export const routes: Routes = [
   },
   {
     path: 'reportes/:id',
-    canActivate: [MsalGuard],
+
+    canActivate: [MsalGuard, roleGuard(['supervisor_inversion'])],
     loadComponent: () =>
       import('./features/reportes/pages/powerbi-view/powerbi-view.component').then(
         (m) => m.PowerbiViewComponent,
@@ -18,7 +20,8 @@ export const routes: Routes = [
   },
   {
     path: 'contactos',
-    canActivate: [MsalGuard],
+
+    canActivate: [MsalGuard, roleGuard(['ejecutivo_inversion', 'supervisor_inversion'])],
     loadComponent: () =>
       import('./features/contactos/pages/contactos.component').then((m) => m.ContactosComponent),
   },
