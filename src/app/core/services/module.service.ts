@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ModuleService {
-
   private mainModules = [
     {
       title: 'Inicio',
@@ -26,15 +25,8 @@ export class ModuleService {
       route: '/prospectos',
       roles: ['ejecutivo_inversion', 'supervisor_inversion'],
     },
-    {
-      title: 'Operaciones',
-      subtitle: 'Módulo de inversiones',
-      icon: 'loan',
-      route: '/reportes',
-      roles: ['supervisor_inversion'],
-    },
   ];
- 
+
   private reportModules = [
     {
       title: 'Avance ejecutivas',
@@ -53,7 +45,7 @@ export class ModuleService {
       icon: 'settings',
       route: '/reportes/control_operaciones',
       roles: ['supervisor_inversion'],
-    }
+    },
   ];
 
   getMainModules() {

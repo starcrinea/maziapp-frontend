@@ -10,9 +10,29 @@ export const routes: Routes = [
       import('./features/home/pages/home/home.component').then((m) => m.HomeComponent),
   },
   {
-    path: 'reportes/:id',
+    path: 'reportes/avance_ejecutivas',
+
+    canActivate: [MsalGuard, roleGuard(['ejecutivo_inversion', 'supervisor_inversion'])],
+    loadComponent: () =>
+      import('./features/reportes/pages/powerbi-view/powerbi-view.component').then(
+        (m) => m.PowerbiViewComponent,
+      ),
+  },
+  {
+    path: 'reportes/funnel_conversion',
 
     canActivate: [MsalGuard, roleGuard(['supervisor_inversion'])],
+
+    loadComponent: () =>
+      import('./features/reportes/pages/powerbi-view/powerbi-view.component').then(
+        (m) => m.PowerbiViewComponent,
+      ),
+  },
+  {
+    path: 'reportes/control_operaciones',
+
+    canActivate: [MsalGuard, roleGuard(['supervisor_inversion'])],
+
     loadComponent: () =>
       import('./features/reportes/pages/powerbi-view/powerbi-view.component').then(
         (m) => m.PowerbiViewComponent,
