@@ -1,24 +1,16 @@
 <fd-dynamic-page>
-
-  <fd-dynamic-page-header
-    title="Maziapp"
-    subtitle="Reportes">
-  </fd-dynamic-page-header>
+  <fd-dynamic-page-header title="Maziapp" subtitle="Reportes"> </fd-dynamic-page-header>
 
   <fd-dynamic-page-content>
-
     <div class="tiles-container">
-
-  <app-module-card
-    *ngFor="let m of filteredModules"
-    [title]="m.title"
-    [description]="m.subtitle"
-    [icon]="m.icon"
-    [route]="m.route">
-  </app-module-card>
-
-</div>
-
+      <app-module-card
+        *ngFor="let m of filteredModules"
+        [title]="m.title"
+        [description]="m.subtitle"
+        [icon]="m.icon"
+        [route]="m.route"
+      >
+      </app-module-card>
+    </div>
   </fd-dynamic-page-content>
-
 </fd-dynamic-page>
