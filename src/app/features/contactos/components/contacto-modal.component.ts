@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
+import { DialogRef, DialogModule } from '@fundamental-ngx/core/dialog';
+import { ContactoCreate } from '../interfaces/contacto-create.interface';
 import { ContactosService } from '../../../core/services/contactos.service';
-
-import { DialogRef, DialogService, DialogModule } from '@fundamental-ngx/core/dialog';
 
 import { FormModule } from '@fundamental-ngx/core/form';
 import { SelectModule } from '@fundamental-ngx/core/select';
@@ -13,7 +12,9 @@ import { ButtonModule } from '@fundamental-ngx/core/button';
 
 @Component({
   selector: 'app-contacto-modal',
+
   standalone: true,
+
   imports: [
     CommonModule,
     FormsModule,
@@ -23,38 +24,63 @@ import { ButtonModule } from '@fundamental-ngx/core/button';
     InputGroupModule,
     ButtonModule,
   ],
+
   templateUrl: './contacto-modal.component.html',
+
   styleUrls: ['./contacto-modal.component.scss'],
 })
 export class ContactoModalComponent {
-  model = {
+  tipos = ['DNI', 'CE', 'PASAPORTE'];
+
+  model: ContactoCreate = {
     tipoDocumento: 'DNI',
+
     dni: '',
-    celular: '',
+
     nombres: '',
+
     apellidos: '',
+
+    celular: '',
   };
 
-  tipos = ['DNI', 'CE', 'Pasaporte'];
+  loading = false;
 
   constructor(
-    public dialogRef: DialogRef,
+    private dialogRef: DialogRef,
+
     private contactosService: ContactosService,
   ) {}
 
   guardar() {
-    this.contactosService.crear(this.model).subscribe({
+    const payload = {
+      tipoDocumento: this.model.tipoDocumento,
+
+      dni: this.model.dni,
+
+      nombres: this.model.nombres,
+
+      apellidos: this.model.apellidos,
+
+      celular: this.model.celular,
+    };
+
+    this.contactosService.crearContacto(payload).subscribe({
       next: () => {
-        // 🔥 dispara evento global
+        // 🔥 REFRESCA TABLA
         this.contactosService.triggerRefresh();
 
-        // 🔥 cierra modal correctamente
-        this.dialogRef.close(true);
+        // 🔥 CIERRA MODAL
+        this.cerrar();
       },
-      error: (err) => console.error(err),
+
+      error: (err) => {
+        console.error('Error creando contacto', err);
+      },
     });
   }
-  cerrar() {
-    this.dialogRef.close();
+
+  cerrar(): void {
+    this.dialogRef.close(false);
   }
 }

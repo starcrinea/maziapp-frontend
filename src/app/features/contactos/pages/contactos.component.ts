@@ -2,7 +2,7 @@ import { DynamicPageModule } from '@fundamental-ngx/core/dynamic-page';
 import { InputGroupModule } from '@fundamental-ngx/core/input-group';
 import { PaginationModule } from '@fundamental-ngx/core/pagination';
 
-import { Component, OnInit, ChangeDetectorRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { DialogService } from '@fundamental-ngx/core/dialog';
@@ -17,26 +17,19 @@ import { ContactoModalComponent } from '../components/contacto-modal.component';
   templateUrl: './contactos.component.html',
   styleUrls: ['./contactos.component.scss'],
 })
-export class ContactosComponent implements OnInit, AfterViewInit {
+export class ContactosComponent implements OnInit {
   contactos: any[] = [];
 
   totalItems = 0;
 
-  ngAfterViewInit() {
-    this.cd.detectChanges();
-  }
-
   constructor(
     private contactosService: ContactosService,
-    private cd: ChangeDetectorRef,
     private dialogService: DialogService,
   ) {}
 
   ngOnInit(): void {
-    // 🔥 CARGA INICIAL
     this.cargarContactos();
 
-    // 🔥 ESCUCHA CUANDO SE CREA UN CONTACTO
     this.contactosService.refreshObservable.subscribe(() => {
       this.cargarContactos();
     });
@@ -48,7 +41,6 @@ export class ContactosComponent implements OnInit, AfterViewInit {
       next: (data) => {
         this.contactos = data;
         this.totalItems = data.length;
-        this.cd.detectChanges();
       },
       error: (err) => {
         console.error('Error cargando contactos', err);
@@ -58,16 +50,8 @@ export class ContactosComponent implements OnInit, AfterViewInit {
 
   // ➕ Abrir modal
   nuevoContacto() {
-    const dialogRef = this.dialogService.open(ContactoModalComponent, {
+    this.dialogService.open(ContactoModalComponent, {
       responsivePadding: true,
-    });
-
-    // 🔥 Cuando se cierre el modal
-    dialogRef.afterClosed.subscribe((result) => {
-      // si guardó
-      if (result) {
-        this.cargarContactos(); // refresca tabla
-      }
     });
   }
 }

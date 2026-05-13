@@ -1,7 +1,12 @@
 import { Injectable } from '@angular/core';
+
 import { HttpClient } from '@angular/common/http';
+
 import { Subject } from 'rxjs';
+
 import { environment } from '../../../environments/environment';
+
+import { ContactoCreate } from '../../features/contactos/interfaces/contacto-create.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +22,7 @@ export class ContactosService {
     return this.http.get<any[]>(this.api);
   }
 
-  crear(data: any) {
+  crearContacto(data: ContactoCreate) {
     return this.http.post(this.api, data);
   }
 

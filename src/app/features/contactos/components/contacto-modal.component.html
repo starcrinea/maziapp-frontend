@@ -7,7 +7,7 @@
     <div fd-form-item>
       <label fd-form-label>Tipo de documento:</label>
 
-      <select fd-form-control [(ngModel)]="model.tipoDocumento">
+      <select fd-form-control name="tipoDocumento" [(ngModel)]="model.tipoDocumento">
         <option *ngFor="let item of tipos" [value]="item">
           {{ item }}
         </option>
@@ -17,7 +17,7 @@
     <div fd-form-item>
       <label fd-form-label>Número de documento:</label>
 
-      <input fd-form-control [(ngModel)]="model.dni" />
+      <input fd-form-control name="dni" [(ngModel)]="model.dni" />
     </div>
 
     <div fd-form-item>
@@ -31,13 +31,13 @@
     <div fd-form-item>
       <label fd-form-label>Nombres:</label>
 
-      <input fd-form-control [(ngModel)]="model.nombres" />
+      <input fd-form-control name="nombres" [(ngModel)]="model.nombres" />
     </div>
 
     <div fd-form-item>
       <label fd-form-label>Apellidos:</label>
 
-      <input fd-form-control [(ngModel)]="model.apellidos" />
+      <input fd-form-control name="apellidos" [(ngModel)]="model.apellidos" />
     </div>
   </fd-dialog-body>
 

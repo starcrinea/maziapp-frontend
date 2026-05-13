@@ -29,7 +29,7 @@ export class ModuleService {
 
   private reportModules = [
     {
-      title: 'Avance ejecutivass',
+      title: 'Avance ejecutivas',
       icon: 'line-chart',
       route: '/reportes/avance_ejecutivas',
       roles: ['ejecutivo_inversion', 'supervisor_inversion'],

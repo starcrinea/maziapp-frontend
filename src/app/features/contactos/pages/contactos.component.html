@@ -31,12 +31,29 @@
       <!-- BODY -->
       <tbody fd-table-body>
         <tr fd-table-row *ngFor="let c of contactos">
-          <td fd-table-cell>{{ c.dni }}</td>
-          <td fd-table-cell>{{ c.nombres }}</td>
-          <td fd-table-cell>{{ c.apellidos }}</td>
-          <td fd-table-cell>{{ c.correo }}</td>
-          <td fd-table-cell>{{ c.celular }}</td>
-          <td fd-table-cell>{{ c.registrado }}</td>
+          <td fd-table-cell>
+            {{ c.demografia?.dni || c.dni }}
+          </td>
+
+          <td fd-table-cell>
+            {{ c.demografia?.nombres || c.nombres }}
+          </td>
+
+          <td fd-table-cell>
+            {{ c.demografia?.apellidos || c.apellidos }}
+          </td>
+
+          <td fd-table-cell>
+            {{ c.ubicacion?.correo || c.correo }}
+          </td>
+
+          <td fd-table-cell>
+            {{ c.ubicacion?.celular || c.celular }}
+          </td>
+
+          <td fd-table-cell>
+            {{ c.creado?.fecha || c.registrado | date: 'dd/MM/yyyy' }}
+          </td>
 
           <td fd-table-cell>
             <i class="sap-icon--slim-arrow-right"></i>
