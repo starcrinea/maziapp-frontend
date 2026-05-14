@@ -1,60 +1,73 @@
 import { HttpInterceptorFn } from '@angular/common/http';
+
 import { inject } from '@angular/core';
+
 import { MsalService } from '@azure/msal-angular';
+
+import { InteractionRequiredAuthError } from '@azure/msal-browser';
+
 import { from, throwError } from 'rxjs';
+
 import { switchMap, catchError } from 'rxjs/operators';
-import { AuthService } from '../auth/auth.service';
+
 import { environment } from '../../../environments/environment';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
+  // 🔥 SOLO INTERCEPTAR API
+  if (!req.url.startsWith(environment.api.baseUrl)) {
+    return next(req);
+  }
 
   const msal = inject(MsalService);
-  const auth = inject(AuthService);
 
   let account = msal.instance.getActiveAccount();
 
+  // 🔥 restaurar sesión
   if (!account) {
     const accounts = msal.instance.getAllAccounts();
 
     if (accounts.length > 0) {
       account = accounts[0];
+
       msal.instance.setActiveAccount(account);
     }
   }
 
+  // 🔥 sin usuario
   if (!account) {
     return next(req);
   }
 
- const tokenRequest = {
-  scopes: [environment.azure.scopes.api],
-  account: account
-};
+  const tokenRequest = {
+    scopes: [environment.azure.scopes.api],
+
+    account,
+  };
 
   return from(msal.instance.acquireTokenSilent(tokenRequest)).pipe(
-
-    switchMap(response => {
-
+    switchMap((response) => {
       const clonedRequest = req.clone({
         setHeaders: {
-          Authorization: `Bearer ${response.accessToken}`
-        }
+          Authorization: `Bearer ${response.accessToken}`,
+        },
       });
 
       return next(clonedRequest);
     }),
 
-    catchError(err => {
+    catchError((err) => {
+      // 🔥 token expirado o requiere login
+      if (err instanceof InteractionRequiredAuthError) {
+        msal.loginRedirect({
+          scopes: [environment.azure.scopes.api],
+        });
 
-      if (err.status === 401) {
-        auth.login();
+        return throwError(() => err);
       }
 
-      if (err.status === 403) {
-        alert('No tienes permisos para esta acción');
-      }
+      console.error('Auth interceptor error:', err);
 
       return throwError(() => err);
-    })
+    }),
   );
 };

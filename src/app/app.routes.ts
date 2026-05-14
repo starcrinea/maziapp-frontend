@@ -45,4 +45,14 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./features/contactos/pages/contactos.component').then((m) => m.ContactosComponent),
   },
+  {
+    path: 'contactos/:id',
+
+    canActivate: [MsalGuard, roleGuard(['ejecutivo_inversion', 'supervisor_inversion'])],
+
+    loadComponent: () =>
+      import('./features/contactos/pages/contacto-ficha.component').then(
+        (m) => m.ContactoFichaComponent,
+      ),
+  },
 ];

@@ -1,74 +1,129 @@
 <fd-dynamic-page>
-  <fd-dynamic-page-header title="Contactos"></fd-dynamic-page-header>
+  <!-- HEADER -->
+  <fd-dynamic-page-header title="Contactos"> </fd-dynamic-page-header>
 
+  <!-- CONTENT -->
   <fd-dynamic-page-content>
-    <table fd-table>
-      <!-- HEADER -->
-      <thead fd-table-header>
-        <tr fd-table-row>
-          <th fd-table-cell>
-            DNI
-            <fd-input-group glyph="filter"></fd-input-group>
-          </th>
+    <fd-busy-indicator [loading]="loading">
+      <table fd-table class="is-cozy full-width-table">
+        <!-- HEADER -->
+        <thead fd-table-header>
+          <tr fd-table-row>
+            <!-- DNI -->
+            <th fd-table-cell>
+              DNI
 
-          <th fd-table-cell>
-            Nombres
-            <fd-input-group glyph="filter"></fd-input-group>
-          </th>
+              <fd-input-group glyph="filter" placement="before" fdCompact>
+                <input
+                  fd-input-group-input
+                  type="text"
+                  [(ngModel)]="filtroDni"
+                  (input)="aplicarFiltros()"
+                />
+              </fd-input-group>
+            </th>
 
-          <th fd-table-cell>
-            Apellidos
-            <fd-input-group glyph="filter"></fd-input-group>
-          </th>
+            <!-- NOMBRES -->
+            <th fd-table-cell>
+              Nombres
 
-          <th fd-table-cell>Correo</th>
-          <th fd-table-cell>Teléfono</th>
-          <th fd-table-cell>Registrado</th>
-          <th fd-table-cell></th>
-        </tr>
-      </thead>
+              <fd-input-group glyph="filter" placement="before" fdCompact>
+                <input
+                  fd-input-group-input
+                  type="text"
+                  [(ngModel)]="filtroNombres"
+                  (input)="aplicarFiltros()"
+                />
+              </fd-input-group>
+            </th>
 
-      <!-- BODY -->
-      <tbody fd-table-body>
-        <tr fd-table-row *ngFor="let c of contactos">
-          <td fd-table-cell>
-            {{ c.demografia?.dni || c.dni }}
-          </td>
+            <!-- APELLIDOS -->
+            <th fd-table-cell>
+              Apellidos
 
-          <td fd-table-cell>
-            {{ c.demografia?.nombres || c.nombres }}
-          </td>
+              <fd-input-group glyph="filter" placement="before" fdCompact>
+                <input
+                  fd-input-group-input
+                  type="text"
+                  [(ngModel)]="filtroApellidos"
+                  (input)="aplicarFiltros()"
+                />
+              </fd-input-group>
+            </th>
 
-          <td fd-table-cell>
-            {{ c.demografia?.apellidos || c.apellidos }}
-          </td>
+            <!-- CORREO -->
+            <th fd-table-cell>Correo</th>
 
-          <td fd-table-cell>
-            {{ c.ubicacion?.correo || c.correo }}
-          </td>
+            <!-- TELEFONO -->
+            <th fd-table-cell>Teléfono</th>
 
-          <td fd-table-cell>
-            {{ c.ubicacion?.celular || c.celular }}
-          </td>
+            <!-- REGISTRO -->
+            <th fd-table-cell>Registrado</th>
 
-          <td fd-table-cell>
-            {{ c.creado?.fecha || c.registrado | date: 'dd/MM/yyyy' }}
-          </td>
+            <th fd-table-cell></th>
+          </tr>
+        </thead>
 
-          <td fd-table-cell>
-            <i class="sap-icon--slim-arrow-right"></i>
-          </td>
-        </tr>
-      </tbody>
+        <!-- BODY -->
+        <tbody fd-table-body>
+          <tr fd-table-row *ngFor="let c of contactosPaginados">
+            <!-- DNI -->
+            <td fd-table-cell>
+              {{ c.demografia?.dni || c.dni }}
+            </td>
 
-      <!-- FOOTER -->
-      <tfoot fd-table-footer>
-        <tr fd-table-row>
-          <td fd-table-cell colspan="100">
-            <fd-pagination *ngIf="totalItems > 0" [totalItems]="totalItems"></fd-pagination>
-          </td>
-        </tr>
-      </tfoot>
-    </table>
+            <!-- NOMBRES -->
+            <td fd-table-cell>
+              {{ c.demografia?.nombres || c.nombres }}
+            </td>
+
+            <!-- APELLIDOS -->
+            <td fd-table-cell>
+              {{ c.demografia?.apellidos || c.apellidos }}
+            </td>
+
+            <!-- CORREO -->
+            <td fd-table-cell>
+              {{ c.ubicacion?.correo || c.correo }}
+            </td>
+
+            <!-- CELULAR -->
+            <td fd-table-cell>
+              {{ c.ubicacion?.celular || c.celular }}
+            </td>
+
+            <!-- FECHA -->
+            <td fd-table-cell class="info">
+              {{ c.creado?.fecha || (c.registrado | date: 'dd/MM/yy, HH:mm') }}
+            </td>
+
+            <!-- ACCIONES -->
+            <td
+              fd-table-cell
+              class="fd-table__cell--activable fd-table__cell--fit-content fd-table__cell--no-padding"
+            >
+              <i fd-table-icon glyph="slim-arrow-right" title="Navigate" (click)="verFicha(c)"> </i>
+            </td>
+          </tr>
+        </tbody>
+
+        <!-- FOOTER -->
+        <tfoot fd-table-footer>
+          <tr fd-table-row>
+            <td fd-table-cell colspan="100">
+              <fd-pagination
+                *ngIf="totalItems > 0"
+                ariaLabel="Paginación"
+                [totalItems]="totalItems"
+                [itemsPerPage]="pageSize"
+                [currentPage]="page"
+                (currentPageChange)="onPageChange($event)"
+              >
+              </fd-pagination>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </fd-busy-indicator>
   </fd-dynamic-page-content>
 </fd-dynamic-page>

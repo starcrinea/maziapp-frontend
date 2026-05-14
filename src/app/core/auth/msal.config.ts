@@ -4,18 +4,20 @@ import { environment } from '../../../environments/environment';
 export const msalInstance = new PublicClientApplication({
   auth: {
     clientId: environment.azure.clientId,
+
     authority: `https://login.microsoftonline.com/${environment.azure.tenantId}`,
-    redirectUri: environment.azure.redirectUri
+
+    redirectUri: environment.azure.redirectUri,
+
+    postLogoutRedirectUri: environment.azure.redirectUri,
   },
+
   cache: {
-    cacheLocation: 'localStorage'
-  }
+    cacheLocation: 'localStorage',
+  },
 });
 
 // 🔐 LOGIN
 export const loginRequest = {
-  scopes: [
-    environment.azure.scopes.api,
-    'User.Read'
-  ]
+  scopes: [environment.azure.scopes.api, 'User.Read'],
 };

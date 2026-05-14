@@ -4,6 +4,11 @@ import { finalize } from 'rxjs';
 import { LoadingService } from '../services/loading.service';
 
 export const loadingInterceptor: HttpInterceptorFn = (req, next) => {
+  // 🔥 solo API real
+  if (!req.url.includes('/api/')) {
+    return next(req);
+  }
+
   const loadingService = inject(LoadingService);
 
   loadingService.show();

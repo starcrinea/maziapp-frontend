@@ -1,6 +1,8 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { map } from 'rxjs/operators';
+
+import { from, of } from 'rxjs';
+import { switchMap, map, catchError, take } from 'rxjs/operators';
 
 import { SessionService } from '../services/session.service';
 
@@ -9,7 +11,11 @@ export const roleGuard = (allowedRoles: string[]): CanActivateFn => {
     const session = inject(SessionService);
     const router = inject(Router);
 
-    return session.roles$.pipe(
+    // 🔥 primero cargar sesión
+    return from(session.loadSession()).pipe(
+      // 🔥 luego obtener roles reales
+      switchMap(() => session.roles$.pipe(take(1))),
+
       map((userRoles: string[]) => {
         const normalizedUserRoles = userRoles.map((r) => r.toLowerCase());
 
@@ -18,7 +24,7 @@ export const roleGuard = (allowedRoles: string[]): CanActivateFn => {
         );
 
         if (!hasRole) {
-          console.warn('Usuario sin permisos');
+          console.warn('Usuario sin permisos', userRoles);
 
           router.navigate(['/']);
 
@@ -26,6 +32,14 @@ export const roleGuard = (allowedRoles: string[]): CanActivateFn => {
         }
 
         return true;
+      }),
+
+      catchError((error) => {
+        console.error('Error en roleGuard:', error);
+
+        router.navigate(['/']);
+
+        return of(false);
       }),
     );
   };
