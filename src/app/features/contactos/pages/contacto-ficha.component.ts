@@ -80,9 +80,13 @@ export class ContactoFichaComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.contactoId = this.route.snapshot.paramMap.get('id') || '';
+    this.route.params.subscribe((params) => {
+      this.contactoId = params['id'];
 
-    this.cargarContacto();
+      if (this.contactoId) {
+        this.cargarContacto();
+      }
+    });
   }
 
   cargarContacto() {
