@@ -21,6 +21,9 @@ export class ContactosService {
   listar() {
     return this.http.get<any[]>(this.api);
   }
+  obtenerPorId(id: string) {
+    return this.http.get<any>(`${environment.api.baseUrl}/contactos/${id}`);
+  }
 
   crearContacto(data: ContactoCreate) {
     return this.http.post(this.api, data);

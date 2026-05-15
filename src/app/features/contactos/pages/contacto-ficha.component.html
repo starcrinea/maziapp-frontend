@@ -1,31 +1,191 @@
 <fd-dynamic-page>
-  <fd-dynamic-page-header title="Ficha contacto"> </fd-dynamic-page-header>
+  <!-- HEADER -->
+  <fd-dynamic-page-header title="Ficha contacto">
+    <fd-dynamic-page-global-actions>
+      <button fd-button fdType="positive">Crear Prospecto</button>
+    </fd-dynamic-page-global-actions>
+  </fd-dynamic-page-header>
 
-  <fd-tab-list>
+  <!-- TABS -->
+  <fd-tab-list class="fd-tabs-custom is-cozy">
+    <!-- CLIENTE -->
     <fd-tab title="Cliente">
-      <div class="tab-container">CLIENTE</div>
+      <div class="tab-content">
+        <form class="sap-form">
+          <div class="hgrid">
+            <!-- Tipo documento -->
+            <div fd-form-item>
+              <label fd-form-label> Tipo de documento </label>
+
+              <fd-select [(ngModel)]="contacto.demografia.tipoDocumento" name="tipoDocumento">
+                <fd-option value="DNI">DNI</fd-option>
+
+                <fd-option value="CE">CE</fd-option>
+
+                <fd-option value="PASAPORTE">PASAPORTE</fd-option>
+              </fd-select>
+            </div>
+
+            <!-- Documento -->
+            <div fd-form-item>
+              <label fd-form-label> Número de documento </label>
+
+              <input fd-form-control [(ngModel)]="contacto.demografia.dni" name="dni" />
+            </div>
+
+            <!-- Nombres -->
+            <div fd-form-item>
+              <label fd-form-label> Nombres </label>
+
+              <input fd-form-control [(ngModel)]="contacto.demografia.nombres" name="nombres" />
+            </div>
+
+            <!-- Apellidos -->
+            <div fd-form-item>
+              <label fd-form-label> Apellidos </label>
+
+              <input fd-form-control [(ngModel)]="contacto.demografia.apellidos" name="apellidos" />
+            </div>
+
+            <!-- Estado civil -->
+            <div fd-form-item>
+              <label fd-form-label> Estado civil </label>
+
+              <fd-select [(ngModel)]="contacto.demografia.estadoCivil" name="estadoCivil">
+                <fd-option value="SOLTERO">Soltero</fd-option>
+
+                <fd-option value="CASADO">Casado</fd-option>
+              </fd-select>
+            </div>
+
+            <div fd-form-item>
+              <label fd-form-label> Fecha de nacimiento </label>
+
+              <fd-date-picker style="width: 100%">
+                <input
+                  fd-input-group-input
+                  [(ngModel)]="contacto.demografia.fechaNacimiento"
+                  name="fechaNacimiento"
+                />
+              </fd-date-picker>
+            </div>
+
+            <div fd-form-item>
+              <label fd-form-label> Sexo </label>
+
+              <fd-form-group class="fd-form-group--inline">
+                <div fd-form-item>
+                  <fd-radio-button
+                    value="MASCULINO"
+                    [(ngModel)]="contacto.demografia.sexo"
+                    name="sexo"
+                  >
+                    Masculino
+                  </fd-radio-button>
+                </div>
+
+                <div fd-form-item>
+                  <fd-radio-button
+                    value="FEMENINO"
+                    [(ngModel)]="contacto.demografia.sexo"
+                    name="sexo"
+                  >
+                    Femenino
+                  </fd-radio-button>
+                </div>
+              </fd-form-group>
+            </div>
+
+            <!-- Nacionalidad -->
+            <div fd-form-item>
+              <label fd-form-label> Nacionalidad </label>
+
+              <input
+                fd-form-control
+                [(ngModel)]="contacto.demografia.nacionalidad"
+                name="nacionalidad"
+              />
+            </div>
+
+            <div fd-form-item>
+              <label fd-form-label> País residencia </label>
+
+              <input
+                fd-form-control
+                [(ngModel)]="contacto.demografia.paisResidencia"
+                name="paisResidencia"
+              />
+            </div>
+
+            <div fd-form-item class="pep-switch">
+              <label fd-form-label>
+                ¿Es una persona calificada como PEP o tiene parentesco con una PEP?
+              </label>
+
+              <fd-switch [(ngModel)]="contacto.demografia.esPep" name="esPep"> </fd-switch>
+            </div>
+          </div>
+
+          <!-- FOOTER -->
+          <div fd-bar class="fd-bar--footer">
+            <div fd-bar-right class="footer-actions">
+              <button fd-button fdType="emphasized" (click)="guardar()">Guardar</button>
+            </div>
+          </div>
+        </form>
+      </div>
     </fd-tab>
 
+    <!-- UBICACION -->
     <fd-tab title="Ubicación">
-      <div class="tab-container">UBICACIÓN</div>
+      <div class="tab-content">
+        <form class="sap-form">
+          <div class="hgrid">
+            <!-- Celular -->
+            <div fd-form-item>
+              <label fd-form-label> Celular </label>
+
+              <fd-input-group addonText="+51" placement="before">
+                <input
+                  fd-input-group-input
+                  [(ngModel)]="contacto.ubicacion.celular"
+                  name="celular"
+                />
+              </fd-input-group>
+            </div>
+
+            <!-- Correo -->
+            <div fd-form-item>
+              <label fd-form-label> Correo </label>
+
+              <input fd-form-control [(ngModel)]="contacto.ubicacion.correo" name="correo" />
+            </div>
+          </div>
+        </form>
+      </div>
     </fd-tab>
 
+    <!-- ACTIVIDAD -->
     <fd-tab title="Actividad">
       <div class="tab-container">ACTIVIDAD</div>
     </fd-tab>
 
+    <!-- PATRIMONIALES -->
     <fd-tab title="Patrimoniales">
       <div class="tab-container">PATRIMONIALES</div>
     </fd-tab>
 
+    <!-- CUENTAS -->
     <fd-tab title="Cuentas bancarias">
       <div class="tab-container">CUENTAS BANCARIAS</div>
     </fd-tab>
 
+    <!-- PROSPECTOS -->
     <fd-tab title="Prospectos">
       <div class="tab-container">PROSPECTOS</div>
     </fd-tab>
 
+    <!-- NOTAS -->
     <fd-tab title="Notas">
       <div class="tab-container">NOTAS</div>
     </fd-tab>

@@ -1,49 +1,69 @@
 <fd-dialog>
+  <!-- HEADER -->
+  <!-- HEADER -->
   <fd-dialog-header>
     <h2 fd-title>Crear contacto</h2>
   </fd-dialog-header>
 
+  <!-- BODY -->
   <fd-dialog-body>
-    <div fd-form-item>
-      <label fd-form-label>Tipo de documento:</label>
+    <form class="sap-form">
+      <!-- Tipo documento -->
+      <div fd-form-item>
+        <label fd-form-label> Tipo documento </label>
 
-      <select fd-form-control name="tipoDocumento" [(ngModel)]="model.tipoDocumento">
-        <option *ngFor="let item of tipos" [value]="item">
-          {{ item }}
-        </option>
-      </select>
-    </div>
+        <fd-select [(ngModel)]="model.tipoDocumento" name="tipoDocumento">
+          <fd-option *ngFor="let item of tipos" [value]="item">
+            {{ item }}
+          </fd-option>
+        </fd-select>
+      </div>
 
-    <div fd-form-item>
-      <label fd-form-label>Número de documento:</label>
+      <!-- DNI -->
+      <div fd-form-item>
+        <label fd-form-label> Documento </label>
 
-      <input fd-form-control name="dni" [(ngModel)]="model.dni" />
-    </div>
+        <input fd-form-control [(ngModel)]="model.dni" name="dni" />
+      </div>
 
-    <div fd-form-item>
-      <label fd-form-label>Celular:</label>
+      <!-- Celular -->
+      <div fd-form-item>
+        <label fd-form-label> Celular </label>
 
-      <fd-input-group addonText="+51">
-        <input fd-input-group-input [(ngModel)]="model.celular" placeholder="980850733" />
-      </fd-input-group>
-    </div>
+        <fd-input-group addonText="+51" placement="before">
+          <input fd-input-group-input [(ngModel)]="model.celular" name="celular" />
+        </fd-input-group>
+      </div>
 
-    <div fd-form-item>
-      <label fd-form-label>Nombres:</label>
+      <!-- Nombres -->
+      <div fd-form-item>
+        <label fd-form-label> Nombres </label>
 
-      <input fd-form-control name="nombres" [(ngModel)]="model.nombres" />
-    </div>
+        <input fd-form-control [(ngModel)]="model.nombres" name="nombres" />
+      </div>
 
-    <div fd-form-item>
-      <label fd-form-label>Apellidos:</label>
+      <!-- Apellidos -->
+      <div fd-form-item>
+        <label fd-form-label> Apellidos </label>
 
-      <input fd-form-control name="apellidos" [(ngModel)]="model.apellidos" />
-    </div>
+        <input fd-form-control [(ngModel)]="model.apellidos" name="apellidos" />
+      </div>
+    </form>
   </fd-dialog-body>
 
+  >
+  <!-- FOOTER -->
   <fd-dialog-footer>
-    <button fd-button fdType="emphasized" (click)="guardar()">Guardar</button>
+    <div fd-bar barDesign="footer" class="fd-bar--footer">
+      <div fd-bar-right class="footer-actions">
+        <button fd-button fdType="emphasized" [disabled]="loading" (click)="guardar()">
+          Guardar
+        </button>
 
-    <button fd-button fdType="transparent" (click)="cerrar()">Cerrar</button>
+        <button fd-button fdType="transparent" [disabled]="loading" (click)="cerrar()">
+          Cerrar
+        </button>
+      </div>
+    </div>
   </fd-dialog-footer>
 </fd-dialog>

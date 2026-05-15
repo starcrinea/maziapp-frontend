@@ -10,6 +10,8 @@ import { SelectModule } from '@fundamental-ngx/core/select';
 import { InputGroupModule } from '@fundamental-ngx/core/input-group';
 import { ButtonModule } from '@fundamental-ngx/core/button';
 
+import { BusyIndicatorModule } from '@fundamental-ngx/core/busy-indicator';
+
 @Component({
   selector: 'app-contacto-modal',
 
@@ -23,6 +25,7 @@ import { ButtonModule } from '@fundamental-ngx/core/button';
     SelectModule,
     InputGroupModule,
     ButtonModule,
+    BusyIndicatorModule,
   ],
 
   templateUrl: './contacto-modal.component.html',

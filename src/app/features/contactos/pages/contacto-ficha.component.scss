@@ -1,3 +1,53 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+/* CONTENIDO */
+.tab-content,
 .tab-container {
-  padding: 24px;
+  padding: 1.5rem;
+}
+
+/* GRID */
+.hgrid {
+  display: grid;
+
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+
+  gap: 1rem;
+}
+
+/* FORM */
+.sap-form {
+  width: 100%;
+}
+
+/* ITEMS */
+[fd-form-item] {
+  margin-bottom: 1rem;
+}
+
+/* FOOTER */
+.fd-bar--footer {
+  margin-top: 2rem;
+  border-top: 1px solid var(--sapGroup_ContentBorderColor);
+}
+
+/* TABS */
+.fd-tabs-custom {
+  background: var(--sapBackgroundColor);
+}
+
+/* INPUTS */
+.fd-input,
+.fd-select {
+  width: 100%;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .hgrid {
+    grid-template-columns: 1fr;
+  }
 }

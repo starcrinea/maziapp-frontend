@@ -175,13 +175,13 @@ export class ContactosComponent implements OnInit {
 
   // ➕ modal
   nuevoContacto() {
-    this.dialogService.open(
-      ContactoModalComponent,
+    this.dialogService.open(ContactoModalComponent, {
+      width: '520px',
 
-      {
-        responsivePadding: true,
-      },
-    );
+      responsivePadding: true,
+
+      mobile: false,
+    });
   }
 
   // 👁 ficha
