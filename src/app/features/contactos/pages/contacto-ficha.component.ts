@@ -14,6 +14,7 @@ import { RadioModule } from '@fundamental-ngx/core/radio';
 import { SwitchModule } from '@fundamental-ngx/core/switch';
 import { FdDatetimeModule } from '@fundamental-ngx/core/datetime';
 import { ContactosService } from '../../../core/services/contactos.service';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-contacto-ficha',
@@ -75,8 +76,8 @@ export class ContactoFichaComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-
     private contactosService: ContactosService,
+    private cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
@@ -95,6 +96,9 @@ export class ContactoFichaComponent implements OnInit {
         this.contacto = data;
 
         console.log('Contacto cargado', data);
+
+        // 🔥 refrescar vista
+        this.cdr.detectChanges();
       },
 
       error: (err) => {
